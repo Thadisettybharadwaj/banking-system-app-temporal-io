@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchIndividualTransferRequest } from '../api/transfer';
 import type { PendingApprovalRequest } from '../interfaces/Interfaces';
+import ApprovalPanel from './ApprovalPanel';
 
 const IndividualTransferRequestDetails: React.FC = () => {
   const [error, setError] = useState<string>('');
@@ -138,6 +139,8 @@ const IndividualTransferRequestDetails: React.FC = () => {
                 </div>
               </div>
             </div>
+
+            <ApprovalPanel workflowId={id ?? ''} />
           </div>
         )}
       </div>

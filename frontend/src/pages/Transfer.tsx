@@ -1,6 +1,5 @@
 import React from 'react';
 import TransferForm from '../components/TransferForm';
-import ApprovalPanel from '../components/ApprovalPanel';
 import PendingApprovalsList from '../components/PendingApprovalsList';
 
 const Transfer: React.FC = () => {
@@ -12,12 +11,8 @@ const Transfer: React.FC = () => {
       </div>
 
       <div className='dashboard-layout'>
-        <div className='dashboard-section'>
+        <div className='dashboard-section full-width'>
           <TransferForm />
-        </div>
-
-        <div className='dashboard-section'>
-          <ApprovalPanel />
         </div>
 
         <div className='dashboard-section full-width'>
