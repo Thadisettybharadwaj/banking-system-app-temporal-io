@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 app.get('/health', healthRoute);
 
 /** Transfer Routes */
-app.post('/api', transferRoutes);
+app.use('/api', transferRoutes);
 
 /** Server Running */
 app.listen(PORT, () => {
