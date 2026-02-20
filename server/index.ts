@@ -1,5 +1,5 @@
 import express from 'express';
-import healthRoute from './api/health';
+import healthRoute from './api/health.route';
 import transferRoutes from './api/transfer.route';
 
 const app = express();
