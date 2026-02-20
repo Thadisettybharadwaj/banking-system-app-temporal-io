@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { createTransfer } from '../api/transfer';
-import type { TransferResponseType } from '../interfaces/Interfaces';
+import type { CreateTransferResponseType } from '../interfaces/Interfaces';
 
 const TransferForm: React.FC = () => {
   const [fromAccount, setFromAccount] = useState('user1');
   const [toAccount, setToAccount] = useState('user2');
   const [amount, setAmount] = useState(0);
-  const [response, setResponse] = useState<TransferResponseType | null>(null);
+  const [response, setResponse] = useState<CreateTransferResponseType | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
