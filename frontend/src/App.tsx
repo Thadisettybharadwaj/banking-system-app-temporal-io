@@ -18,7 +18,11 @@ const navBar: NavBarType[] = [
   },
   {
     path: '/transfer',
-    title: 'Transfer',
+    title: 'New Transfer',
+  },
+  {
+    path: '/pending-transfers',
+    title: 'Pending Transfers',
   },
 ];
 
