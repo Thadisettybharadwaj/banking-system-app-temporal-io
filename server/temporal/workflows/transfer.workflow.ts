@@ -1,4 +1,4 @@
-import { proxyActivities, defineSignal, setHandler, condition, sleep } from '@temporalio/workflow';
+import { proxyActivities, defineSignal, setHandler, condition, sleep, ApplicationFailure } from '@temporalio/workflow';
 import type { TransferInput } from '../../interfaces/Interfaces';
 
 //
@@ -37,7 +37,7 @@ export async function transferWorkflow(input: TransferInput) {
 
   await recordTransactionStatus(transactionId, 'INITIATED');
 
-  const THRESHOLD = 1000;
+  const THRESHOLD = 500;
 
   //
   // 🏦 Threshold Approval Logic
@@ -46,7 +46,12 @@ export async function transferWorkflow(input: TransferInput) {
     await recordTransactionStatus(transactionId, 'AWAITING_APPROVAL');
 
     // Wait for approval or timeout (1min)
-    const approvalReceived = await Promise.race([condition(() => approved || rejected), sleep('1min')]);
+    await Promise.race([
+      condition(() => approved || rejected),
+      sleep('1min').then(() => {
+        throw new ApplicationFailure('Failed to approve trasfer request with time period');
+      }),
+    ]);
 
     if (rejected || !approved) {
       await recordTransactionStatus(transactionId, 'REJECTED');
