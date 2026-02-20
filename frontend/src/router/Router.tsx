@@ -3,6 +3,8 @@ import App from '../App';
 import Welcome from '../pages/Welcome';
 import CheckServerHealth from '../pages/Health';
 import Transfer from '../pages/Transfer';
+import IndividualTransferRequestDetails from '../components/IndividualTransferRequestDetails';
+import PendingApprovalsList from '../components/PendingApprovalsList';
 
 export const AppRoutes: RouteObject[] = [
   {
@@ -20,6 +22,14 @@ export const AppRoutes: RouteObject[] = [
       {
         path: '/transfer',
         element: <Transfer />,
+      },
+      {
+        path: '/pending-transfers',
+        element: <PendingApprovalsList />,
+      },
+      {
+        path: '/transfer-details/:workflowId',
+        element: <IndividualTransferRequestDetails />,
       },
     ],
   },
