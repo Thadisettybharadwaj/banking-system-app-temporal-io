@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { PendingTransferApprovalsListResponse } from '../interfaces/Interfaces';
 import { fetchListOfPendingTransferRequests } from '../api/transfer';
+import { Link } from 'react-router-dom';
 
 const PendingApprovalsList: React.FC = () => {
   const [res, setRes] = useState<PendingTransferApprovalsListResponse | null>(null);
@@ -34,7 +35,8 @@ const PendingApprovalsList: React.FC = () => {
             return (
               <ul>
                 <li>
-                  Started At == {eachRequest.startTime} & Workflow ID == {eachRequest.workflowId}
+                  Started At == {eachRequest.startTime} & Workflow ID =={' '}
+                  <Link to={`/transfer-details/${eachRequest.workflowId}`}>{eachRequest.workflowId}</Link>
                 </li>
               </ul>
             );

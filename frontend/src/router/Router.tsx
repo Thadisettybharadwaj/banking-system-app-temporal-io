@@ -3,6 +3,7 @@ import App from '../App';
 import Welcome from '../pages/Welcome';
 import CheckServerHealth from '../pages/Health';
 import Transfer from '../pages/Transfer';
+import IndividualTransferRequestDetails from '../components/IndividualTransferRequestDetails';
 
 export const AppRoutes: RouteObject[] = [
   {
@@ -20,6 +21,10 @@ export const AppRoutes: RouteObject[] = [
       {
         path: '/transfer',
         element: <Transfer />,
+      },
+      {
+        path: '/transfer-details/:workflowId',
+        element: <IndividualTransferRequestDetails />,
       },
     ],
   },
