@@ -16,6 +16,10 @@ const navBar: NavBarType[] = [
     path: '/check-server-health',
     title: 'Check Server Health',
   },
+  {
+    path: '/transfer',
+    title: 'Transfer',
+  },
 ];
 
 const App: React.FC = () => {

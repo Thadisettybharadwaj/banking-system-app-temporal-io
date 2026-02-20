@@ -2,6 +2,7 @@ import { createBrowserRouter, type RouteObject } from 'react-router-dom';
 import App from '../App';
 import Welcome from '../pages/Welcome';
 import CheckServerHealth from '../pages/Health';
+import Transfer from '../pages/Transfer';
 
 export const AppRoutes: RouteObject[] = [
   {
@@ -15,6 +16,10 @@ export const AppRoutes: RouteObject[] = [
       {
         path: '/check-server-health',
         element: <CheckServerHealth />,
+      },
+      {
+        path: '/transfer',
+        element: <Transfer />,
       },
     ],
   },

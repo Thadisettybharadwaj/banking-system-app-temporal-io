@@ -5,3 +5,9 @@
 export interface Test {
   type: string;
 }
+
+export interface TransferResponseType {
+  message: string;
+  transactionId: string;
+  workflowId: string;
+}
