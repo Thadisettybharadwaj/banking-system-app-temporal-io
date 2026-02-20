@@ -61,11 +61,11 @@ export async function transferWorkflow(input: TransferInput) {
     const storeTransferDetails = { transactionId, fromAccount, toAccount, amount };
     setHandler(getTransferDetailsQuery, () => storeTransferDetails);
 
-    // Wait for approval or timeout (1min)
+    // Wait for approval or timeout (1d)
     await Promise.race([
       condition(() => approved || rejected),
-      sleep('10min').then(() => {
-        throw new ApplicationFailure('Failed to approve trasfer request with time period');
+      sleep('1d').then(() => {
+        throw new ApplicationFailure('Failed to approve trasfer request within 1 day');
       }),
     ]);
 
