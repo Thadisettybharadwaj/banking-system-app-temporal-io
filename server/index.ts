@@ -1,5 +1,6 @@
 import express from 'express';
 import healthRoute from './api/health';
+import transferRoutes from './api/transfer.route';
 
 const app = express();
 
@@ -23,6 +24,9 @@ app.use((req, res, next) => {
 
 /** Health Route */
 app.get('/health', healthRoute);
+
+/** Transfer Routes */
+app.use('/api', transferRoutes);
 
 /** Server Running */
 app.listen(PORT, () => {

@@ -1,5 +1,5 @@
 {
-  "name": "fullstack-initalizer-app",
+  "name": "banking-system-app",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -7,6 +7,7 @@
     "dev:frontend": "vite --config frontend/vite.config.ts",
     "dev:server": "tsx watch server/index.ts",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:frontend\"",
+    "worker": "tsx server/temporal/workers/transfer.worker.ts",
     "lint": "eslint .",
     "lint:commit-all": "commitlint --to HEAD",
     "lint:source": "eslint . --report-unused-disable-directives",
