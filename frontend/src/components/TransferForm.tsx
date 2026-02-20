@@ -16,6 +16,10 @@ const TransferForm: React.FC = () => {
     setIsLoading(true);
 
     try {
+      if (fromAccount === toAccount) {
+        alert('Cannot Transfer to Self Account');
+        return;
+      }
       const result = await createTransfer({
         fromAccount,
         toAccount,
@@ -36,24 +40,32 @@ const TransferForm: React.FC = () => {
         <form onSubmit={handleSubmit} className='transfer-form'>
           <div className='form-group'>
             <label htmlFor='fromAccount'>From Account:</label>
-            <input
+            <select
               id='fromAccount'
               value={fromAccount}
               onChange={(e) => setFromAccount(e.target.value)}
               className='form-input'
-              placeholder='Enter sender account'
-            />
+            >
+              <option value='user1'>user1</option>
+              <option value='user2'>user2</option>
+              <option value='user3'>user3</option>
+              <option value='user4'>user4</option>
+            </select>
           </div>
 
           <div className='form-group'>
             <label htmlFor='toAccount'>To Account:</label>
-            <input
+            <select
               id='toAccount'
               value={toAccount}
               onChange={(e) => setToAccount(e.target.value)}
               className='form-input'
-              placeholder='Enter recipient account'
-            />
+            >
+              <option value='user1'>user1</option>
+              <option value='user2'>user2</option>
+              <option value='user3'>user3</option>
+              <option value='user4'>user4</option>
+            </select>
           </div>
 
           <div className='form-group'>
