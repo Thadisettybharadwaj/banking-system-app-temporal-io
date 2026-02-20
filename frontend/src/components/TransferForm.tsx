@@ -84,7 +84,7 @@ const TransferForm: React.FC = () => {
           </button>
         </form>
 
-        {response && (
+        {requiresApproval && response && (
           <div className='response-message'>
             <div className='response-header'>
               <span className='success-icon'>✅</span>
@@ -100,6 +100,15 @@ const TransferForm: React.FC = () => {
               <p>
                 <strong>Status:</strong> {response.message}
               </p>
+            </div>
+          </div>
+        )}
+
+        {!requiresApproval && response && (
+          <div className='response-message'>
+            <div className='response-header'>
+              <span className='success-icon'>✅</span>
+              <strong>Successfully Transferred Amount</strong>
             </div>
           </div>
         )}
