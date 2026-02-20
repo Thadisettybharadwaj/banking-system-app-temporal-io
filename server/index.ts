@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 });
 
 /** Health Route */
-app.get('/health', healthRoute);
+app.use('/api', healthRoute);
 
 /** Transfer Routes */
 app.use('/api', transferRoutes);

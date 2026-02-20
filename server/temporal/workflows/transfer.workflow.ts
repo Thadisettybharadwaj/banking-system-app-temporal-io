@@ -1,4 +1,12 @@
-import { proxyActivities, defineSignal, setHandler, condition, sleep, ApplicationFailure } from '@temporalio/workflow';
+import {
+  proxyActivities,
+  defineSignal,
+  setHandler,
+  condition,
+  sleep,
+  ApplicationFailure,
+  defineQuery,
+} from '@temporalio/workflow';
 import type { TransferInput } from '../../interfaces/Interfaces';
 
 //
@@ -16,6 +24,11 @@ const { debitAccount, creditAccount, refundAccount, recordTransactionStatus } = 
 // Approval Signal
 //
 export const approveTransferSignal = defineSignal<[boolean]>('approveTransfer');
+
+//
+// Creating my own queyr
+//
+export const getTransferDetailsQuery = defineQuery('getTransferDetails');
 
 //
 // Workflow
@@ -45,10 +58,13 @@ export async function transferWorkflow(input: TransferInput) {
   if (amount >= THRESHOLD) {
     await recordTransactionStatus(transactionId, 'AWAITING_APPROVAL');
 
+    const storeTransferDetails = { transactionId, fromAccount, toAccount, amount };
+    setHandler(getTransferDetailsQuery, () => storeTransferDetails);
+
     // Wait for approval or timeout (1min)
     await Promise.race([
       condition(() => approved || rejected),
-      sleep('1min').then(() => {
+      sleep('10min').then(() => {
         throw new ApplicationFailure('Failed to approve trasfer request with time period');
       }),
     ]);
