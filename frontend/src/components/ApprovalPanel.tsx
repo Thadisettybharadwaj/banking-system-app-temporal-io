@@ -4,25 +4,82 @@ import { approveTransfer } from '../api/transfer';
 const ApprovalPanel: React.FC = () => {
   const [workflowId, setWorkflowId] = useState('');
   const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState<'success' | 'error' | ''>('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleDecision = async (decision: boolean) => {
-    const result = await approveTransfer(workflowId, decision);
-    setMessage(result.message);
+    if (!workflowId.trim()) {
+      setMessageType('error');
+      setMessage('Please enter a valid Workflow ID');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const result = await approveTransfer(workflowId, decision);
+      setMessageType('success');
+      setMessage(result.message || `Transfer ${decision ? 'approved' : 'rejected'} successfully`);
+      setWorkflowId('');
+    } catch (err) {
+      setMessageType('error');
+      setMessage(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div style={{ border: '1px solid #ccc', padding: 20 }}>
-      <h2>⏳ Approve Transfer</h2>
+    <div className='approval-panel-container'>
+      <div className='approval-card'>
+        <h2 className='approval-title'>⏳ Transfer Approval</h2>
 
-      <input placeholder='Enter workflowId' value={workflowId} onChange={(e) => setWorkflowId(e.target.value)} />
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+          className='approval-form'
+        >
+          <div className='form-group'>
+            <label htmlFor='workflowId'>Workflow ID:</label>
+            <input
+              id='workflowId'
+              placeholder='Enter the transfer workflow ID'
+              value={workflowId}
+              onChange={(e) => setWorkflowId(e.target.value)}
+              className='form-input'
+              disabled={isLoading}
+            />
+          </div>
 
-      <div style={{ marginTop: 10 }}>
-        <button onClick={() => handleDecision(true)}>✅ Approve</button>
+          <div className='button-group'>
+            <button
+              type='button'
+              onClick={() => handleDecision(true)}
+              className='approve-button'
+              disabled={isLoading || !workflowId.trim()}
+            >
+              ✅ Approve
+            </button>
 
-        <button onClick={() => handleDecision(false)}>❌ Reject</button>
+            <button
+              type='button'
+              onClick={() => handleDecision(false)}
+              className='reject-button'
+              disabled={isLoading || !workflowId.trim()}
+            >
+              ❌ Reject
+            </button>
+          </div>
+        </form>
+
+        {message && (
+          <div className={`message ${messageType}`}>
+            {messageType === 'success' && <span className='message-icon'>✓</span>}
+            {messageType === 'error' && <span className='message-icon'>✕</span>}
+            <span className='message-text'>{message}</span>
+          </div>
+        )}
       </div>
-
-      {message && <p>{message}</p>}
     </div>
   );
 };

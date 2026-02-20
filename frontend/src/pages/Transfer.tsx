@@ -5,14 +5,25 @@ import PendingApprovalsList from '../components/PendingApprovalsList';
 
 const Transfer: React.FC = () => {
   return (
-    <div style={{ padding: 40 }}>
-      <h1>🏦 Banking Dashboard</h1>
+    <div className='transfer-page'>
+      <div className='page-header'>
+        <h1>🏦 Banking Dashboard</h1>
+        <p className='page-subtitle'>Manage your transfers and approvals securely</p>
+      </div>
 
-      <TransferForm />
-      <br />
-      <ApprovalPanel />
-      <br />
-      <PendingApprovalsList />
+      <div className='dashboard-layout'>
+        <div className='dashboard-section'>
+          <TransferForm />
+        </div>
+
+        <div className='dashboard-section'>
+          <ApprovalPanel />
+        </div>
+
+        <div className='dashboard-section full-width'>
+          <PendingApprovalsList />
+        </div>
+      </div>
     </div>
   );
 };
