@@ -28,7 +28,7 @@ export async function approveTransfer(workflowId: string, decision: boolean) {
 export async function fetchListOfPendingTransferRequests() {
   const res = await fetch(FETCH_LIST_OF_PENDING_APPROVALS_URL, { method: 'GET' });
 
-  return res.json();
+  return res;
 }
 
 export async function fetchIndividualTransferRequest(workflowId: string) {
