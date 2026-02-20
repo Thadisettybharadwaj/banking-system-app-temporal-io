@@ -1,6 +1,5 @@
 import React from 'react';
 import TransferForm from '../components/TransferForm';
-import PendingApprovalsList from '../components/PendingApprovalsList';
 
 const Transfer: React.FC = () => {
   return (
@@ -15,9 +14,9 @@ const Transfer: React.FC = () => {
           <TransferForm />
         </div>
 
-        <div className='dashboard-section full-width'>
+        {/* <div className='dashboard-section full-width'>
           <PendingApprovalsList />
-        </div>
+        </div> */}
       </div>
     </div>
   );
