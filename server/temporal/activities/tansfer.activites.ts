@@ -1,16 +1,18 @@
-import fs from "fs/promises";
-import path from "path";
-import { fileURLToPath } from "url";
-import type { UserAccountType } from "../../interfaces/Interfaces";
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { sendMetric } from '../../monitoring/metrics';
+import type { UserAccountType } from '../../interfaces/Interfaces';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const accountsPath = path.join(__dirname, "../../data/accounts.json");
+const accountsPath = path.join(__dirname, '../../data/accounts.json');
 
 // Utility to load accounts
 async function loadAccounts() {
-  const data = await fs.readFile(accountsPath, "utf-8");
+  const data = await fs.readFile(accountsPath, 'utf-8');
+
   return JSON.parse(data) as UserAccountType[];
 }
 
@@ -25,12 +27,18 @@ export async function debitAccount(accountId: string, amount: number) {
   const account = accounts.find((a) => a.id === accountId);
 
   if (!account) {
-    throw new Error("Account not found");
+    throw new Error('Account not found');
   }
 
   if (account.balance < amount) {
-    throw new Error("Insufficient funds");
+    throw new Error('Insufficient funds');
   }
+
+  // Count of transfers
+  await sendMetric('custom.banking_transfer_total,service="temporal" count,delta=1');
+
+  // Transfer amount
+  await sendMetric(`custom.banking_transfer_amount,service="temporal" gauge,${amount}`);
 
   account.balance -= amount;
 
@@ -46,13 +54,13 @@ export async function creditAccount(accountId: string, amount: number) {
   const account = accounts.find((a) => a.id === accountId);
 
   if (!account) {
-    throw new Error("Receiver account not found");
+    throw new Error('Receiver account not found');
   }
 
   // 🔥 Simulate random failure (30% chance)
   if (Math.random() < 0.3) {
-    console.log("⚠️ Simulated credit failure");
-    throw new Error("Credit failed due to banking error");
+    console.log('⚠️ Simulated credit failure');
+    throw new Error('Credit failed due to banking error');
   }
 
   account.balance += amount;
@@ -69,7 +77,7 @@ export async function refundAccount(accountId: string, amount: number) {
   const account = accounts.find((a) => a.id === accountId);
 
   if (!account) {
-    throw new Error("Refund account not found");
+    throw new Error('Refund account not found');
   }
 
   account.balance += amount;
@@ -81,10 +89,7 @@ export async function refundAccount(accountId: string, amount: number) {
 }
 
 // 🔹 Record Transaction Status (for logging)
-export async function recordTransactionStatus(
-  transactionId: string,
-  status: string
-) {
+export async function recordTransactionStatus(transactionId: string, status: string) {
   console.log(`📌 Transaction ${transactionId} → ${status}`);
   return true;
 }
