@@ -1,5 +1,11 @@
 # banking-system-app
 
+## 1.1.0
+
+### Minor Changes
+
+- c82e4c6: Send Custom Metrics to Dynatrace when Debit Action is performed
+
 ## 1.0.0
 
 ### Major Changes
