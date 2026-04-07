@@ -2,6 +2,7 @@ import { Worker } from '@temporalio/worker';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import * as activities from '../activities/tansfer.activites';
+import '../../monitoring/metrics';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
