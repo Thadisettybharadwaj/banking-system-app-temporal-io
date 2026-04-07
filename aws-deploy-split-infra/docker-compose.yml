@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  temporal:
+    image: temporalio/server:latest
+    container_name: temporal
+    ports:
+      - '7233:7233'
+    environment:
+      - DB=postgres12
+      - SQL_PLUGIN=postgres
+
+      # RDS Connection
+      - SQL_HOST=temporaldatabase.ceewmm2srats.ap-south-1.rds.amazonaws.com
+      - SQL_PORT=5432
+      - SQL_USER=postgress
+      - SQL_PASSWORD=postgress
+
+      # Databases
+      - SQL_DATABASE=temporal
+      - SQL_VISIBILITY_DATABASE=temporal_visibility
+
+      # Optional (if SSL required)
+      - SQL_TLS_ENABLED=true
+      - SQL_TLS_DISABLE_HOST_VERIFICATION=true
+
+    networks:
+      - temporal-network
+
+  temporal-admin-tools:
+    image: temporalio/admin-tools:latest
+    container_name: temporal-admin-tools
+    stdin_open: true
+    tty: true
+    networks:
+      - temporal-network
+
+networks:
+  temporal-network:
+    driver: bridge
